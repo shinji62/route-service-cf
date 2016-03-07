@@ -3,13 +3,12 @@ Reverse proxy to be use with the Cloudfoundry route service.
 
 Features:
 * User proper go Reverse proxy
-* Send back to the goRouter a  new header indicating the response from the forwarded URL `X-Response-Forwarding`
 * Validate `X-CF-Proxy-Signature`  `X-CF-Forwarded-Url` `X-CF-Proxy-Metadata`
 
 ##Creating Route-Service
 ### Using User provided cf >= 229 and use edge cf cli (unrelease build)
 
-[![asciicast](https://asciinema.org/a/c1vxs1d3g76hmvdtumiyo51cr.png)](https://asciinema.org/a/c1vxs1d3g76hmvdtumiyo51cr)
+[![asciicast](https://asciinema.org/a/bt7b4ft46en9asjm2govnury7.png)](https://asciinema.org/a/bt7b4ft46en9asjm2govnury7)
 
 ##Usage
 

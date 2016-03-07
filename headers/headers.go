@@ -50,6 +50,6 @@ func (r *RouteServiceHeaders) IsValidRequest() bool {
 }
 
 func (r *RouteServiceHeaders) String() string {
-	return fmt.Sprintf("\n X-CF-Proxy-Signature: %v \n X-CF-Forwarded-Url: %v \n X-CF-Proxy-Metadata: %v", r.Signature, r.UrlString, r.Metadata)
+	return fmt.Sprintf("X-CF-Proxy-Signature: %v \n X-CF-Forwarded-Url: %v \n X-CF-Proxy-Metadata: %v", r.Signature, r.UrlString, r.Metadata)
 
 }

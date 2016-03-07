@@ -1,6 +1,6 @@
 {
-	"ImportPath": "github.com/Pivotal-Japan/service-test",
-	"GoVersion": "go1.6",
+	"ImportPath": "github.com/shinji62/route-service-cf",
+	"GoVersion": "go1.5.2",
 	"Deps": [
 		{
 			"ImportPath": "github.com/alecthomas/template",

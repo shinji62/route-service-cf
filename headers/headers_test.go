@@ -1,9 +1,9 @@
 package headers_test
 
 import (
-	. "github.com/Pivotal-Japan/service-test/headers"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	. "github.com/shinji62/route-service-cf/headers"
 	"net/http"
 )
 

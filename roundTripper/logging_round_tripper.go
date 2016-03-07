@@ -4,16 +4,19 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"net/http/httputil"
 	"time"
 )
 
 type LoggingRoundTripper struct {
 	transport http.RoundTripper
+	debug     bool
 }
 
-func NewLoggingRoundTripper() *LoggingRoundTripper {
+func NewLoggingRoundTripper(debug bool) *LoggingRoundTripper {
 	return &LoggingRoundTripper{
 		transport: http.DefaultTransport,
+		debug:     debug,
 	}
 }
 
@@ -25,13 +28,22 @@ func (lrt *LoggingRoundTripper) RoundTrip(request *http.Request) (*http.Response
 	var res *http.Response
 	start := time.Now()
 	if request.Host == "No Host" {
-		return nil, errors.New("Incoming Request Invalid")
+		return nil, errors.New("Invalid Header")
 	}
 	res, err = lrt.transport.RoundTrip(request)
 	if err != nil {
 		return nil, err
 	}
-	res.Header.Add("X-Response-Forwarding", res.Status)
-	log.Printf("Time Elapsed RoundTrip %v", time.Since(start))
+	if lrt.debug {
+		dump, err := httputil.DumpRequest(request, true)
+		if err != nil {
+			log.Fatalln(err.Error())
+		}
+
+		log.Printf("%q", dump)
+		log.Printf("Time Elapsed RoundTrip %v", time.Since(start))
+
+	}
+
 	return res, err
 }
