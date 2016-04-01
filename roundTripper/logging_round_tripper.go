@@ -1,7 +1,9 @@
 package roundTripper
 
 import (
+	"crypto/tls"
 	"errors"
+	"github.com/Pivotal-Japan/route-service-cf/headers"
 	"log"
 	"net/http"
 	"net/http/httputil"
@@ -15,8 +17,10 @@ type LoggingRoundTripper struct {
 
 func NewLoggingRoundTripper(debug bool) *LoggingRoundTripper {
 	return &LoggingRoundTripper{
-		transport: http.DefaultTransport,
-		debug:     debug,
+		transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+		debug: debug,
 	}
 }
 
@@ -34,6 +38,7 @@ func (lrt *LoggingRoundTripper) RoundTrip(request *http.Request) (*http.Response
 	if err != nil {
 		return nil, err
 	}
+
 	if lrt.debug {
 		dump, err := httputil.DumpRequest(request, true)
 		if err != nil {
@@ -44,6 +49,8 @@ func (lrt *LoggingRoundTripper) RoundTrip(request *http.Request) (*http.Response
 		log.Printf("Time Elapsed RoundTrip %v", time.Since(start))
 
 	}
-
+	//Adding CF headers
+	res.Header.Add(headers.RouteServiceMetadata, request.Header.Get(headers.RouteServiceMetadata))
+	res.Header.Add(headers.RouteServiceSignature, request.Header.Get(headers.RouteServiceSignature))
 	return res, err
 }
